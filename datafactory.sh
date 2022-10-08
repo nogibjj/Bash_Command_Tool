@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 
-# datafactory.sh generates noises data.
+# datafactory.sh generates noises data that is in range [0, SCALE) and save to a specified file.
 
 # Set strict mode. Cause shell to exit when a command fails.
 set -e
 
 # Set viriables.
-USAGE="Usage: ./datafactory --gennoise NUM --file FILENAME(default: noise.txt)"
+USAGE="Usage: ./datafactory --gennoise COUNT --file FILENAME(default: noise.txt) --scale SCALE(default: 1000)"
 DIGITS='^[0-9]+$'
 FILE="noise.txt"
+SCALE=1000
 
 # Arguments check.
 if [[ "$#" -lt "2" ]]; then
@@ -38,6 +39,16 @@ case $key in
     echo "processing $FILE"
     shift
     ;;
+    --scale)
+    SCALE="$2"
+    echo "count: $SCALE"
+    if ! [[ $SCALE =~ $DIGITS ]]; then
+        echo "Error: a number is missing for --gennoise"
+        echo "$USAGE"
+        exit 1
+    fi
+    shift
+    ;;
     *)
     echo "$key is not a valid flag"
     exit 1
@@ -59,7 +70,8 @@ fi
 
 # Generate random noise.
 for ((i=0; i<$COUNT; i++)) do
-    echo "$RANDOM" >> $FILE
+    DATA=$(($RANDOM % $SCALE))
+    echo $DATA >> $FILE
 done
 
 echo "$COUNT noises is generated in $FILE"
