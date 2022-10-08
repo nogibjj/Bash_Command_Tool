@@ -6,7 +6,7 @@
 set -e
 
 # Set viriables.
-USAGE="Usage: ./datafactory --gennoise COUNT --file FILENAME(default: noise.txt) --scale SCALE(default: 1000)"
+USAGE="Usage: ./datafactory.sh --gennoise COUNT --file FILENAME(default: noise.txt) --scale SCALE(default: 1000)"
 DIGITS='^[0-9]+$'
 FILE="noise.txt"
 SCALE=1000
